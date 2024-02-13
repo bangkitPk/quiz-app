@@ -1,8 +1,28 @@
-# React + Vite
+# React Quiz App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Features
 
-Currently, two official plugins are available:
+1. **User Authentication**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+   - Players can log in to the app using the following credentials:
+     - Username: user1
+     - Password: 123456
+
+2. **Open Trivia Database API Integration**
+
+   - The app utilizes the [Open Trivia Database API](https://opentdb.com/) to fetch quiz questions.
+
+3. **Quiz Timer**
+
+   - The quiz includes a timer that counts down the remaining time for each quiz session.
+
+4. **Resume Quiz**
+   - Users have the ability to resume their quiz progress if they refresh or close the browser.
+
+## Built with
+
+- Tailwind CSS
+- React.js
+- React Router
+- Open Trivia Database API
+- Local Storage
