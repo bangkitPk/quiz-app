@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import LevelBox from "../components/LevelBox";
 import { useNavigate } from "react-router-dom";
+import { useQuiz } from "../contexts/QuizContext";
 
 export default function LevelPage() {
-  const [levelSelected, setLevelSelected] = useState("");
+  const { levelSelected, setLevelSelected, questions, setQuestions } =
+    useQuiz();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,10 +18,12 @@ export default function LevelPage() {
           throw new Error("Failed to fetch questions");
         }
         const data = await res.json();
+        setQuestions(data.results);
+
+        // simpan pertanyaan ke localStorage
+
         // navigate to Quiz Page
-        navigate(`/start quiz/${levelSelected}`, {
-          state: data.results, // pass the questions data
-        });
+        navigate(`/start quiz/${levelSelected}`);
       };
 
       fetchQuestions();

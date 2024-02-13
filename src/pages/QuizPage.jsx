@@ -1,16 +1,44 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Answers from "../components/Answers";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
+import { useQuiz } from "../contexts/QuizContext";
 
 export default function QuizPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const questions = location.state;
-  const [questionIndex, setQuestionIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [time, setTime] = useState(300); // waktu 5 menit
+  const {
+    levelSelected,
+    setLevelSelected,
+    questions,
+    setQuestions,
+    questionIndex,
+    setQuestionIndex,
+    score,
+    setScore,
+    time,
+    setTime,
+  } = useQuiz();
+
+  // Update localStorage jika state berubah
+  useEffect(() => {
+    const quizState = JSON.stringify({
+      levelSelected,
+      questions,
+      questionIndex,
+      score,
+      time,
+    });
+    localStorage.setItem("quizState", quizState);
+  }, [questions, questionIndex, score, time]);
+
+  // Hapus state di localStorage ketika kuis selesai
+  useEffect(() => {
+    if (questionIndex === questions.length || time === 0) {
+      localStorage.removeItem("quizState");
+    }
+  }, [questionIndex, questions.length, time]);
 
   // timer
   useEffect(() => {
@@ -39,6 +67,12 @@ export default function QuizPage() {
   };
 
   const handleSelectDifferentLevel = () => {
+    // reset state
+    setLevelSelected("");
+    setQuestions([]);
+    setQuestionIndex(0);
+    setScore(0);
+    setTime(300);
     // back to level page
     navigate("/level");
   };
@@ -61,7 +95,7 @@ export default function QuizPage() {
             <p className="text-6xl">{questionIndex}</p>
           </div>
           <button
-            className="bg-light-bluish rounded-md mr-5 mt-10 px-5 py-1 group hover:bg-light-grey hover:text-dark-navy"
+            className="bg-light-bluish rounded-md mr-5 mt-10 px-5 py-1 group"
             onClick={handleTryAgain}
           >
             Try Again
@@ -71,7 +105,7 @@ export default function QuizPage() {
             />
           </button>
           <button
-            className="bg-dark-navy rounded-md px-5 py-1 hover:bg-light-grey hover:text-dark-navy"
+            className="bg-dark-navy rounded-md px-5 py-1 hover:bg-light-bluish"
             onClick={handleSelectDifferentLevel}
           >
             Select Different Level
@@ -99,15 +133,7 @@ export default function QuizPage() {
             </p>
           </div>
           <div id="answers">
-            {questions[0] && (
-              <Answers
-                question={questions[questionIndex]}
-                questionIndex={questionIndex}
-                setQuestionIndex={setQuestionIndex}
-                score={score}
-                setScore={setScore}
-              />
-            )}
+            {questions[0] && <Answers question={questions[questionIndex]} />}
           </div>
         </div>
       )}

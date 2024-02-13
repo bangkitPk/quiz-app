@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
+import { useQuiz } from "../contexts/QuizContext";
 
-export default function Answers({
-  question,
-  questionIndex,
-  setQuestionIndex,
-  score,
-  setScore,
-}) {
+export default function Answers({ question }) {
+  const { questionIndex, setQuestionIndex, score, setScore } = useQuiz();
   const [answers, setAnswers] = useState([]);
 
   useEffect(() => {
@@ -39,9 +35,9 @@ export default function Answers({
   }, [question]);
 
   const handleAnswer = (answer) => {
-    setQuestionIndex(++questionIndex);
+    setQuestionIndex(questionIndex + 1);
     if (answer === question.correct_answer) {
-      setScore(++score);
+      setScore(score + 1);
     }
   };
 
