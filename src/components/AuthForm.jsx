@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import { getUsers } from "../services/UsersService";
+import { getUsers, postUsers } from "../services/UsersService";
 
 export default function AuthForm({ isRegister }) {
   const [userName, setUserName] = useState("");
@@ -15,13 +15,18 @@ export default function AuthForm({ isRegister }) {
 
     if (isRegister) {
       // proses register
-      let user = {
+      let userData = {
         username: userName,
         password: password,
       };
 
-      const users = await getUsers();
-      console.log(users);
+      const response = await postUsers(userData);
+      if (response.success) {
+        alert("Register Successful");
+        navigate("/login");
+      } else {
+        alert(response.error);
+      }
     } else {
       // proses login
       const users = await getUsers();
@@ -81,7 +86,7 @@ export default function AuthForm({ isRegister }) {
         <p>
           Sudah memiliki akun?{" "}
           <Link to="/login">
-            <span className="text-blue-600 underline">Log In</span>
+            <span className="text-blue-600 underline">Log in</span>
           </Link>
         </p>
       ) : (

@@ -1,6 +1,12 @@
+import { useLocation } from "react-router-dom";
 import AuthForm from "../components/AuthForm";
 
-export default function Login() {
+export default function AuthPage() {
+  const location = useLocation();
+  const { pathname } = location;
+
+  const isRegister = pathname === "/register";
+
   return (
     <div className="font-rubik w-screen h-screen bg-navy text-light-grey flex">
       <div className="w-1/2 h-full flex items-center justify-center text-5xl">
@@ -8,7 +14,7 @@ export default function Login() {
           Welcome to the <b>Quiz!</b>
         </h1>
       </div>
-      <AuthForm isRegister={false} />
+      <AuthForm isRegister={isRegister} />
     </div>
   );
 }

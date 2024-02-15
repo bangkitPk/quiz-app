@@ -4,9 +4,7 @@
 
 1. **User Authentication**
 
-   - Players can log in to the app using the following credentials:
-     - Username: user1
-     - Password: 123456
+   - Implemented user authentication feature using a demo REST API created with JSON Server.
 
 2. **Open Trivia Database API Integration**
 
@@ -25,4 +23,5 @@
 - React.js
 - React Router
 - Open Trivia Database API
+- JSON Server
 - Local Storage
