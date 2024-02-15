@@ -3,11 +3,19 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Answers from "../components/Answers";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "../contexts/AuthContext";
 import { useQuiz } from "../contexts/QuizContext";
 
 export default function QuizPage() {
-  const location = useLocation();
   const navigate = useNavigate();
+
+  const { isAuth } = useAuth();
+
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, [isAuth]);
   const {
     levelSelected,
     setLevelSelected,

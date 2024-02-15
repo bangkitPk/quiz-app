@@ -1,12 +1,20 @@
 import { useEffect } from "react";
 import LevelBox from "../components/LevelBox";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 import { useQuiz } from "../contexts/QuizContext";
 
 export default function LevelPage() {
   const { levelSelected, setLevelSelected, questions, setQuestions } =
     useQuiz();
   const navigate = useNavigate();
+  const { isAuth } = useAuth();
+
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, [isAuth]);
 
   useEffect(() => {
     if (levelSelected !== "") {
